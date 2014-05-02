@@ -2,6 +2,7 @@
 import atexit
 import os
 import random
+import sys
 import time
 from struct import pack
 
@@ -53,13 +54,16 @@ def get_next():
 def main():
     current = [(1.0, 0.0, 1.0), (1.0, 0.0, 1.0), (1.0, 0.0, 1.0)]
     next = get_next()
-    total = 50
-    while True:
-        for i in range(total):
-            xcalib(gradient(current, next, i, total))
-            time.sleep(0.05)
+    total = 30
+    try:
+        while True:
+            for i in range(total):
+                xcalib(gradient(current, next, i, total))
+                time.sleep(0.05)
 
-        current, next = next, get_next()
+            current, next = next, get_next()
+    except KeyboardInterrupt:
+        sys.exit(0)
 
 def cleanup():
     os.system("xcalib -c")
